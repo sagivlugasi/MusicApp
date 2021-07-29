@@ -1,69 +1,52 @@
 package com.example.musicapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.res.Resources;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Environment;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.os.Handler;
+import android.view.View;
+import android.widget.ImageView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.SequenceInputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class MainActivity extends AppCompatActivity {
+    static int c = 1;
 
-    TextView status;
-    static final String path ="src/main/res/raw/";
-    public File merged =new File(path,"merged.mp3");
+    public void DropIn(View view)
+    {
+        ImageView counter = (ImageView)  view;
+        counter.setTranslationY(-1000f);
+        if(c % 2 == 0) {
+            counter.setImageResource(R.drawable.fcb);
+        }
+        else
+        {
+            counter.setImageResource(R.drawable.arg);
+        }
+        counter.animate().translationYBy(1000f).setDuration(300);
 
+
+    }
+
+    ImageView i1,i2,i3,i4,i5,i6,i7,i8,i9;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /*
+        i1 = (ImageView) findViewById(R.id.Image1);
+        i2 = (ImageView) findViewById(R.id.Image2);
+        i3 = (ImageView) findViewById(R.id.Image3);
+        i4 = (ImageView) findViewById(R.id.Image4);
+        i5 = (ImageView) findViewById(R.id.Image5);
+        i6 = (ImageView) findViewById(R.id.Image6);
+        i7 = (ImageView) findViewById(R.id.Image7);
+        i8 = (ImageView) findViewById(R.id.Image8);
+        i9 = (ImageView) findViewById(R.id.Image9);
 
-        status = findViewById(R.id.status);
-        status.setText(" ");
+         */
 
-        try {
-            File sdcard = Environment.getExternalStorageDirectory();
-            File song1 = new File(path,"bpm180.mp3");
-            File song2 =  new File(path,"song1.mp3");
 
-            mergeSongs(merged,song1,song2);
-
-          //  MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.merged);
-          //  mediaPlayer.start();
-          //  wait(3000);
-          //  mediaPlayer.stop();
-            Toast.makeText(MainActivity.this,"WORK",Toast.LENGTH_SHORT).show();
-            status.setText("Its working");
-
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(MainActivity.this,"dosent work",Toast.LENGTH_SHORT).show();
-            status.setText("Dosent work");
-
-        }
 
     }
-    public void mergeSongs(File mergedFile,File song1, File song2) throws IOException {
-        byte[] byte1 = Files.readAllBytes(Paths.get("/bpm180.mp3"));
-        byte[] byte2 = Files.readAllBytes(Paths.get("/song1.mp3"));
-        byte[] out = new byte[byte1.length];
-        for (int i=0; i<byte1.length; i++) {
-            out[i] = (byte) ((byte1[i] + byte2[i]) >> 1);
-        }
-
-    }
-
-
 
 }
+
