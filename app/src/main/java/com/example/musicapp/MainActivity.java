@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
             counter.setImageResource(R.drawable.arg);
         }
         counter.animate().translationYBy(1000f).setDuration(300);
+        c++;
 
 
     }
