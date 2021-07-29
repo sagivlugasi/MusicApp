@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -16,6 +19,29 @@ public class MainActivity extends AppCompatActivity {
                       {0,0,0}};
     int player = 0;
     boolean gameOver = false;
+
+
+
+    public void Restart(View view)
+    {
+        final LinearLayout l = (LinearLayout) findViewById(R.id.WinLayout);
+        l.setVisibility(View.INVISIBLE);
+
+        TextView winner =  findViewById(R.id.WinnerText);
+        winner.setText("");
+
+        c = 1;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                game[i][j] = 0;
+            }
+            }
+
+           gameOver = false;
+        player = 0;
+
+
+    }
 
     public void DropIn(View view)
     {
@@ -42,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Log.i("array", "________________________");
 
-                if (c > 5) {
+                if (c > 5 && c < 9) {
+                    //check for 3 X or O in a row for 3 rows
                     for (int i = 0; i < 3; i++) {
                         if (game[i][0] == game[i][1] && game[i][0] == game[i][1] && game[i][0]!=0 ) {
                             gameOver = true;
@@ -50,34 +77,51 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         }
                     }
+                    //check for 3 X or O in a row for 3 columns
+
                     for (int i = 0; i < 3; i++) {
-                        if (game[0][i] == game[1][i] && game[1][i] == game[2][i] && game[i][0]!=0)  {
+                        if (game[0][i] == game[1][i] && game[1][i] == game[2][i] && game[0][i]!=0)  {
                             gameOver = true;
                             player = game[0][i];
                             break;
                         }
                     }
+                    //check for 3 X or O in a row in 2 diagonals
+
                     if( (game[0][0] == game[1][1] &&game[1][1] == game[2][2] )   ||
                             (game[2][0] == game[1][1] &&game[1][1] == game[0][2])  )
                     {
                         gameOver = true;
                         player = game[1][1];
                     }
-                    if (gameOver && player == 2)
+
+                    String winnerName = "";
+                    if (gameOver )
                     {
-                        Toast.makeText(MainActivity.this, "Argentina won!",Toast.LENGTH_LONG).show();
+                        if(player == 1 ) {
+                            winnerName = "Barcelona";
+                        }
+                        else {
+                            winnerName = "Argentina";
+
+                        }
+                        TextView winner =  findViewById(R.id.WinnerText);
                         c = 1;
                         Log.i( "","Game Over");
-                    }
-                    else if (gameOver)
-                    {
-                        Toast.makeText(MainActivity.this, "Barcelona won!",Toast.LENGTH_LONG).show();
-                        c = 1;
-                        Log.i( "","Game Over");
-
+                        winner.setText(winnerName+" won!");
+                        final LinearLayout l = (LinearLayout) findViewById(R.id.WinLayout);
+                        l.setVisibility(View.VISIBLE);
                     }
 
-
+                }
+                else if (c==10)
+                {
+                    TextView winner =  findViewById(R.id.WinnerText);
+                    c = 1;
+                    Log.i( "","Game Over");
+                    winner.setText("It's a tie!");
+                    final LinearLayout l = (LinearLayout) findViewById(R.id.WinLayout);
+                    l.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -88,19 +132,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*
-        i1 = (ImageView) findViewById(R.id.Image1);
-        i2 = (ImageView) findViewById(R.id.Image2);
-        i3 = (ImageView) findViewById(R.id.Image3);
-        i4 = (ImageView) findViewById(R.id.Image4);
-        i5 = (ImageView) findViewById(R.id.Image5);
-        i6 = (ImageView) findViewById(R.id.Image6);
-        i7 = (ImageView) findViewById(R.id.Image7);
-        i8 = (ImageView) findViewById(R.id.Image8);
-        i9 = (ImageView) findViewById(R.id.Image9);
-
-         */
-
 
 
     }
